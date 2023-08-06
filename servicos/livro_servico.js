@@ -19,12 +19,28 @@ function insereLivro(livroNovo) {
     
 }
 
-function modificarLivro(modificacoes) {
+function modificarLivro(modificacoes, id) {
     let livrosAtuais = JSON.parse(fs.readFileSync("livros.json"))
+    const indiceModificado = livrosAtuais.findIndex(livro => livro.id === id)
+
+    const conteudoMudado = { ...livrosAtuais[indiceModificado], ...modificacoes} //quando se tem dois spreads, o js faz uma comparação dos elementos e substitui os que está diferente
+    livrosAtuais[indiceModificado] = conteudoMudado
+
+    fs.writeFileSync("livros.json", JSON.stringify(livrosAtuais))
+}
+
+function deletarLivroPorId(id) {
+    const livros = JSON.parse(fs.readFileSync("livros.json"))
+    
+    const livrosFiltrados = livros.filter( livro => livro.id !== id)
+    fs.writeFileSync("livros.json", JSON.stringify(livrosFiltrados))
+
 }
 
 module.exports = {
     getTodosLivros,
     getLivroPorId, 
-    insereLivro
+    insereLivro,
+    modificarLivro,
+    deletarLivroPorId
 }

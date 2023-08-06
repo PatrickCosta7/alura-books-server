@@ -1,5 +1,5 @@
 const { Router } = require("express") //express é um framework node que fornece recursos para aplicativos web
-const { getLivros, getLivro, postLivro } = require("../controladores/livro_controle")
+const { getLivros, getLivro, postLivro, patchLivro, deleteLivro } = require("../controladores/livro_controle")
 
 const router = Router()
 
@@ -10,12 +10,8 @@ router.get('/:id', getLivro)
 
 router.post('/', postLivro)  
 
-router.patch('/', (req, res) => {
-    res.send("Você fez uma requisição do tipo PATCH")
-}) 
+router.patch('/:id', patchLivro) 
 
-router.delete('/', (req, res) => {
-    res.send("Você fez uma requisição do tipo DELETE")
-}) 
+router.delete('/:id', deleteLivro) 
 
 module.exports = router
