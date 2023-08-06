@@ -1,13 +1,14 @@
-const { Router } = require("express")
-const { getLivros } = require("../controladores/livro_controle")
+const { Router } = require("express") //express é um framework node que fornece recursos para aplicativos web
+const { getLivros, getLivro, postLivro } = require("../controladores/livro_controle")
 
 const router = Router()
 
+//req e res sõo parâmetros do próprio Node, usados para fazer uma request e um send
 router.get('/', getLivros)
 
-router.post('/', (req, res) => {
-    res.send("Você fez uma requisição do tipo POST")
-}) 
+router.get('/:id', getLivro)
+
+router.post('/', postLivro)  
 
 router.patch('/', (req, res) => {
     res.send("Você fez uma requisição do tipo PATCH")
