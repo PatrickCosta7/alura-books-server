@@ -1,4 +1,5 @@
-const { getTodosFavoritos, deletaFavoritoPorId, insereFavorito } = require("../controladores/livro_controle")
+const { getTodosFavoritos, insereFavorito, deletaFavoritoPorId } = require("../servicos/favoritos_servicos")
+
 
 function getFavoritos(req, res) {
     try {
@@ -12,18 +13,29 @@ function getFavoritos(req, res) {
 
 function postFavorito(req, res) {
     try {
-        const livroNovo = req.body 
+        const id = req.params.id
+        insereFavorito(id)
+        res.status(201)
+        res.send("Livros inserido com sucesso")
+    } catch (error) {
+        res.status(500)
+        res.send(error.message)
+    }
+}
 
-        if( req.body.nome ) {
-            insereFavorito(livroNovo)
+function deleteFavorito(req, res) {
+    try{ 
+        const id = req.params.id
+
+        if(id && Number(id)) {
+            deletaFavoritoPorId(id)
             res.status(201)
-            res.send("Livros inserido com sucesso")
+            res.send("Livro deletado com sucesso!")
         } else {
             res.status(422)
-            res.send("O campo nome é obrigatório")
+            res.send("ID inválido")
         }
 
-        
     } catch(error) {
         res.status(500)
         res.send(error.message)
@@ -33,4 +45,6 @@ function postFavorito(req, res) {
 
 module.exports = {
     getFavoritos,
+    postFavorito,
+    deleteFavorito
 }
